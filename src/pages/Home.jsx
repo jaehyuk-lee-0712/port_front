@@ -10,88 +10,83 @@ const Home = () => {
   const moveBoxTop = useRef(null);
   const moveBoxBottom = useRef(null);
 
+  const mainSectionBox = useRef(null);
   useEffect(() => {
-    if (contextDesc.current) {
-      const tl = gsap.timeline({
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: contextDesc.current,
+        start: "top 10%",
+        end: "top 50%",
+        scrub: true,
+        // markers: true,
+        onUpdate: (self) => {
+          if (self.progress > 0.5) {
+            gsap.to(contextDesc.current, { opacity: 0 });
+          } else {
+            gsap.to(contextDesc.current, { opacity: 1 });
+          }
+        },
+      },
+    });
+
+    tl.fromTo(
+      contextDesc.current,
+      { opacity: 1 },
+      {
+        opacity: 0,
+        repeat: -1,
+        yoyo: true,
+        duration: 0.5,
+      }
+    );
+
+    gsap.fromTo(
+      moveBoxTop.current,
+      { x: "-1000%" },
+      {
+        x: "0%",
+        ease: "power1.inOut",
+        // stagger: 0.1,
         scrollTrigger: {
-          trigger: contextDesc.current,
-          start: "top 10%",
-          end: "top 50%",
+          trigger: moveBoxTop.current,
+          duration: 5,
+          start: "top center",
+          end: "bottom+=2000px",
           scrub: true,
           // markers: true,
-          onUpdate: (self) => {
-            if (self.progress > 0.5) {
-              gsap.to(contextDesc.current, { opacity: 0 });
-            } else {
-              gsap.to(contextDesc.current, { opacity: 1 });
-            }
+          snap: {
+            snapTo: 0.5, // 화면의 중간에서 스냅
+            duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
+            delay: 0.1, // 스냅 전 지연 시간
+            ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
           },
         },
-      });
+      }
+    );
 
-      tl.fromTo(
-        contextDesc.current,
-        { opacity: 1 },
-        {
-          opacity: 0,
-          repeat: -1,
-          yoyo: true,
-          duration: 0.5,
-        }
-      );
-    }
-
-    if (moveBoxTop.current) {
-      gsap.fromTo(
-        moveBoxTop.current,
-        { x: "-1000%" },
-        {
-          x: "0%",
-          ease: "power1.inOut",
-          // stagger: 0.1,
-          scrollTrigger: {
-            trigger: moveBoxTop.current,
-            duration: 5,
-            start: "top center",
-            end: "bottom+=2000px",
-            scrub: true,
-            // markers: true,
-            snap: {
-              snapTo: 0.5, // 화면의 중간에서 스냅
-              duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
-              delay: 0.1, // 스냅 전 지연 시간
-              ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
-            },
+    gsap.fromTo(
+      moveBoxBottom.current,
+      { x: "1000%" },
+      {
+        x: "0%",
+        // stagger: 0.1,
+        ease: "power1.inOut",
+        scrollTrigger: {
+          trigger: moveBoxBottom.current,
+          duration: 5,
+          start: "top center",
+          end: "bottom+=1706px",
+          scrub: true,
+          // markers: true,
+          snap: {
+            snapTo: 0.5, // 화면의 중간에서 스냅
+            duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
+            delay: 0.1, // 스냅 전 지연 시간
+            ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
           },
-        }
-      );
-    }
-
-    if (moveBoxBottom.current) {
-      gsap.fromTo(
-        moveBoxBottom.current,
-        { x: "1000%" },
-        {
-          x: "0%",
-          // stagger: 0.1,
-          ease: "power1.inOut",
-          scrollTrigger: {
-            trigger: moveBoxBottom.current,
-            duration: 5,
-            start: "top center",
-            end: "bottom+=1706px",
-            scrub: true,
-            // markers: true,
-            snap: {
-              snapTo: 0.5, // 화면의 중간에서 스냅
-              duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
-              delay: 0.1, // 스냅 전 지연 시간
-              ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
-            },
-          },
-        }
-      );
-    }
+        },
+      }
+    );
   }, []);
 
   return (
@@ -133,7 +128,10 @@ const Home = () => {
                       </g>
                     </svg>
                   </div>
-                  <section className="home__section cursor-none">
+                  <section
+                    className="home__section cursor-none"
+                    ref={mainSectionBox}
+                  >
                     <div className="border__inner"></div>
                     <div className="home__section__content">
                       <div className="content__home">
