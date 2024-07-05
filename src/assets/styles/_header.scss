@@ -1,0 +1,214 @@
+.page__header {
+  translate: none;
+  rotate: none;
+  scale: none;
+  will-change: transform;
+  transform: translate(0px, 0px);
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: calc(21px * 8);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: calc(calc(100 * 9.11px) / 20) calc(calc(100 * 19.2px) / 6) 0;
+  pointer-events: none;
+  z-index: 10;
+  .left__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-right: auto;
+    pointer-events: auto;
+    .header__nav {
+      .nav__inner {
+        translate: none;
+        rotate: none;
+        scale: none;
+        will-change: transform;
+        transform: translate(0px, 0px);
+        .navigator__tab {
+          top: calc(-1 * calc(calc(100 * 9.11px) / 20));
+          --width: calc(7 * var(--rem));
+          --toggle-size: calc(var(--width) / 2.5);
+          position: relative;
+          height: calc(21px * 8);
+          width: var(--width);
+          border: var(--borders-width) solid var(--borders-color);
+          border-top-width: 0;
+          border-bottom-left-radius: calc(var(--width) / 2);
+          border-bottom-right-radius: calc(var(--width) / 2);
+          background: var(--mainBg);
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: calc(21px * 0.5) 0 calc(calc(calc(7 * 21px) / 2.5) / 2);
+          transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+          will-change: transform;
+          .navi__graphic {
+            display: block;
+            flex: 1;
+            max-width: 56%;
+            max-height: 56%;
+            aspect-ratio: 1 / 1;
+            transition: opacity 2s;
+            svg {
+              enable-background: new 0 0 80 80;
+              width: 100%;
+              height: 100%;
+              display: block;
+              object-fit: contain;
+              object-position: center;
+            }
+          }
+          .navi__label {
+            margin: var(--spacer-05) auto var(--spacer-025);
+            text-align: center;
+            transition: opacity 0.2s;
+            font-size: 16px;
+            text-transform: uppercase;
+            line-height: 1.2;
+            text-underline-offset: 0.15em !important;
+            text-decoration-thickness: 1px !important;
+            .label__sm {
+              line-height: 1.2;
+              text-transform: uppercase;
+              line-height: 1.2;
+              font-weight: 400;
+              font-family: var(--mainFont);
+            }
+          }
+          .navi__toggle {
+            display: block;
+            position: absolute;
+            bottom: calc(-1 * calc(calc(7 * 21px) / 2.5) / 2);
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            width: var(--toggle-size);
+            height: var(--toggle-size);
+            border: var(--borders-width) solid var(--borders-color);
+            border-radius: calc(var(--toggle-size) / 2);
+            overflow: hidden;
+            .btn__icon__up {
+              transform: translateY(-150%);
+              position: absolute;
+              top: calc(var(--toggle-size) / 4);
+              left: 0;
+              right: 0;
+              margin: 0 auto;
+              transition: transform 0.2s;
+              .up__icon {
+                color: #fff;
+                fill: #fff;
+                stroke: #fff;
+                stroke-width: 2;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  .center__header {
+  }
+  .rigth__header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+    pointer-events: auto;
+    .quicklinks {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      .quic__items {
+        .btn__wrap {
+          color: var(--mainBg);
+          --button-height: var(--buttons-height);
+          position: relative;
+          height: var(--button-height);
+          display: inline-flex;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          text-decoration: none;
+          padding-top: 0.17em;
+          padding-left: calc(var(--button-height) / 2.5);
+          padding-right: calc(var(--button-height) / 2.5);
+          border-width: var(--borders-width);
+          border-style: solid;
+          border-radius: calc(var(--button-height) / 2);
+          cursor: pointer;
+          --border-scaled: calc(var(--borders-width) / var(--scale, 1));
+          box-shadow: 0 0 0 var(--border-scaled) var(--borders-color);
+          border-width: 0;
+          --color-font: var(--white);
+          --color-bg: var(--mainBg);
+          --color-borders: var(--white);
+          border-color: var(--white);
+          background-color: var(--white);
+          .btn__text {
+            white-space: nowrap;
+            text-transform: uppercase;
+            font-size: 30px;
+            line-height: calc(var(--button-height) - 0.15em);
+            font-weight: 400;
+          }
+        }
+      }
+    }
+    .hambugger__icon {
+      z-index: 9999;
+      position: relative;
+      margin-left: calc(21px * 1.5);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      width: var(--button-height);
+      text-align: center;
+      text-decoration: none;
+      padding-top: 0.17em;
+      padding-left: calc(var(--button-height) / 2.5);
+      padding-right: calc(var(--button-height) / 2.5);
+      border-width: var(--borders-width);
+      border-style: solid;
+      border-radius: calc(var(--button-height) / 2);
+      cursor: pointer;
+      --border-scaled: calc(var(--borders-width));
+      box-shadow: 0 0 0 calc(calc(2 * 1px) / 1) var(--white);
+      border-width: 0;
+      --color-font: var(--white);
+      --color-bg: var(--mainBg);
+      --color-borders: var(--white);
+      color: var(--mainBg);
+      border-color: var(--white);
+      background-color: var(--mainBg);
+      height: var(--button-height);
+
+      span {
+        position: absolute;
+        display: block;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        width: calc(var(--button-height) / 4);
+        height: var(--borders-width);
+        background: var(--white);
+        transition: width 0.15s;
+        &:nth-child(1) {
+          top: calc(-1 * calc(21px * 0.75));
+        }
+        &:nth-child(3) {
+          bottom: calc(-1 * calc(21px * 0.75));
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,31 @@
+<svg class="sbc-svg-icon sbc-home-navigator" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 80 80" style="enable-background:new 0 0 80 80; stroke-width : 1.69014;" xml:space="preserve" 
+fill="#000" 
+stroke="white" 
+ >
+	<g>
+		<g class="sbc-home-navigator__section has-hover" data-section="3">
+			<path class="sbc-home-navigator__path back" d="M74.3,73l0.1-47.9L32.7,1L22.4,7l-0.1,47.9L63.9,79L74.3,73z" style="stroke-width: 1.69014;" ></path>
+			<path class="sbc-home-navigator__path top" d="M22.4,7l10.4-6l41.7,24.1l-10.4,6L22.4,7z" style="stroke-width: 1.69014;" ></path>
+			<path class="sbc-home-navigator__path front" d="M64.1,31.1l10.4-6L74.3,73l-10.4,6L64.1,31.1z" style="stroke-width: 1.69014;" stroke="white"></path>
+		</g>
+
+		<g class="sbc-home-navigator__section has-hover" data-section="2">
+			<path class="sbc-home-navigator__path back" d="M60.5,71.1l0.1-38.3L27.3,13.5l-10.4,6l-0.1,38.3l33.3,19.3L60.5,71.1z" style="stroke-width: 1.69014;" ></path>
+			<path class="sbc-home-navigator__path top" d="M17,19.5l10.4-6l33.3,19.3l-10.4,6L17,19.5z" style="stroke-width: 1.69014;"></path>
+			<path class="sbc-home-navigator__path front" d="M50.3,38.8l10.4-6l-0.1,38.3l-10.4,6L50.3,38.8z" style="stroke-width: 1.69014;"></path>
+		</g>
+		
+		<g class="sbc-home-navigator__section has-hover" data-section="1">
+			<path class="sbc-home-navigator__path back" d="M21.6,26l-10.4,6l-0.1,28.7l25,14.4l10.4-6" style="stroke-width: 1.69014;" ></path>
+			<path class="sbc-home-navigator__path top" d="M11.3,32l10.4-6l25,14.4l-10.4,6L11.3,32z" style="stroke-width: 1.69014;"></path>
+			<path class="sbc-home-navigator__path front" d="M36.3,46.4l10.4-6l-0.1,28.7l-10.4,6L36.3,46.4z" style="stroke-width: 1.69014;" ></path>
+		</g>
+
+		<g class="sbc-home-navigator__section has-hover is-active" data-section="0">
+			<path class="sbc-home-navigator__path bottom" d="M22.2,73.3L5.6,63.6l10.4-6l16.7,9.6L22.2,73.3z" style="stroke-width: 1.69014;" fill="white"></path>
+			<path class="sbc-home-navigator__path back" d="M5.6,63.6l0.1-19.2l10.4-6l-0.1,19.2L5.6,63.6z" style="stroke-width: 1.69014;" ></path>
+			<path class="sbc-home-navigator__path top" d="M5.6,44.5l10.4-6l16.7,9.6l-10.4,6L5.6,44.5z" style="stroke-width: 1.69014;" ></path>
+			<path class="sbc-home-navigator__path front" d="M22.3,54.1l10.4-6l-0.1,19.2l-10.4,6L22.3,54.1z" style="stroke-width: 1.69014;" ></path>
+		</g>
+	</g>
+</svg>
