@@ -2,9 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ScrollSmoother } from "gsap-trial/ScrollSmoother";
 
-gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
+gsap.registerPlugin(ScrollTrigger);
 
 const Home = () => {
   const contextDesc = useRef(null);
@@ -48,6 +47,7 @@ const Home = () => {
         { x: "-1000%" },
         {
           x: "0%",
+          ease: "power1.inOut",
           // stagger: 0.1,
           scrollTrigger: {
             trigger: moveBoxTop.current,
@@ -56,6 +56,12 @@ const Home = () => {
             end: "bottom+=2000px",
             scrub: true,
             // markers: true,
+            snap: {
+              snapTo: 0.5, // 화면의 중간에서 스냅
+              duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
+              delay: 0.1, // 스냅 전 지연 시간
+              ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
+            },
           },
         }
       );
@@ -68,13 +74,20 @@ const Home = () => {
         {
           x: "0%",
           // stagger: 0.1,
+          ease: "power1.inOut",
           scrollTrigger: {
             trigger: moveBoxBottom.current,
             duration: 5,
             start: "top center",
             end: "bottom+=1706px",
             scrub: true,
-            markers: true,
+            // markers: true,
+            snap: {
+              snapTo: 0.5, // 화면의 중간에서 스냅
+              duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
+              delay: 0.1, // 스냅 전 지연 시간
+              ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
+            },
           },
         }
       );
