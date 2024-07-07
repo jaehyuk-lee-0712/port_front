@@ -172,44 +172,81 @@ const Home = () => {
       },
     });
 
-    // 타임라인에 애니메이션 추가
-    tl2
-      .fromTo(
-        moveBoxTop.current,
-        { x: "-1000%" },
-        { x: "0%", duration: 1.7, ease: "sine.inOut" },
-        0 // 동시에 시작
-      )
-      .fromTo(
-        moveBoxBottom.current,
-        { x: "2000px" },
-        { x: "0px", duration: 1.7, ease: "sine.inOut" },
-        0 // 동시에 시작
-      );
-
-    gsap.to(homeSection.current, {
-      scrollTrigger: {
-        trigger: homeSection.current,
-        start: "top+=5000px", // 스크롤 트리거 시작 위치
-        end: "bottom+=6000px", // 스크롤 트리거 종료 위치
-        scrub: true, // 스크롤과 애니메이션 동기화
-        markers: true, // 디버깅용 마커 표시
-        onUpdate: (self) => {
-          // 스크롤 진행 상황에 따라 scale 값을 업데이트
-          const newScale = 1 - 0.3 * self.progress;
-          gsap.to(homeSection.current, {
-            scale: newScale,
-            duration: 2, // 짧은 duration을 사용하여 매끄러운 업데이트
-            overwrite: "auto", // 이전 애니메이션을 덮어쓰기
-          });
-          const newMarginTop = 31.5 * (1 - self.progress);
-          gsap.to(moveBoxBottomWrap.current, {
-            marginTop: newMarginTop + "px",
-            duration: 0.2,
-          });
-        },
+  // moveBoxTop 애니메이션
+// moveBoxTop 요소에 대한 애니메이션 설정
+gsap.fromTo(
+  moveBoxTop.current,
+  { x: "-1000%" },
+  {
+    ease: "sine.inOut",
+    scrollTrigger: {
+      trigger: moveBoxTop.current,
+      start: "top center", // 요소가 화면 중앙에 도달할 때 애니메이션 시작
+      end: "bottom+=2000px", // 스크롤이 요소의 끝 부분에 2000px를 더할 때 애니메이션 종료
+      scrub: true,
+      // markers: true,
+      onUpdate: (self) => {
+        // 스크롤 진행 상황에 따라 x 위치 업데이트
+        const newX = -1000 + 1000 * self.progress;
+        console.log(self.progress);
+        gsap.to(moveBoxTop.current, {
+          x: newX + "px",
+          duration: 0.1, // 더 짧은 duration을 사용하여 매끄러운 업데이트
+          overwrite: "auto",
+        });
       },
-    });
+    },
+  }
+);
+
+// moveBoxBottom 요소에 대한 애니메이션 설정
+gsap.fromTo(
+  moveBoxBottom.current,
+  { x: "2000px" },
+  {
+    scrollTrigger: {
+      trigger: moveBoxBottom.current,
+      start: "top center", // 요소가 화면 중앙에 도달할 때 애니메이션 시작
+      end: "bottom+=2000px", // 스크롤이 요소의 끝 부분에 2000px를 더할 때 애니메이션 종료
+      scrub: true,
+      // markers: true,
+      onUpdate: (self) => {
+        const newX = 1000 - 1000 * self.progress;
+        gsap.to(moveBoxBottom.current, {
+          x: newX + "px",
+          duration: 0.1, // 더 짧은 duration을 사용하여 매끄러운 업데이트
+          overwrite: "auto",
+        });
+      },
+    },
+  }
+);
+// homeSection 스크롤 트리거 애니메이션
+gsap.to(homeSection.current, {
+  scrollTrigger: {
+    trigger: homeSection.current,
+    start: "top+=5000px", // 스크롤 트리거 시작 위치
+    end: "bottom+=6000px", // 스크롤 트리거 종료 위치
+    scrub: true, // 스크롤과 애니메이션 동기화
+    markers: true, // 디버깅용 마커 표시
+    onUpdate: (self) => {
+      // 스크롤 진행 상황에 따라 scale 값을 업데이트
+      const newScale = 1 - 0.3 * self.progress;
+      gsap.to(homeSection.current, {
+        scale: newScale,
+        duration: 2, // 짧은 duration을 사용하여 매끄러운 업데이트
+        overwrite: "auto", // 이전 애니메이션을 덮어쓰기
+      });
+
+      const newMarginTop = 31.5 * (1 - self.progress);
+      gsap.to(moveBoxBottomWrap.current, {
+        marginTop: newMarginTop + "px",
+        duration: 0.2,
+      });
+    },
+  },
+});
+
 
     // 컴포넌트 언마운트 시 Lenis 인스턴스 파괴
     return () => {
@@ -259,6 +296,7 @@ const Home = () => {
                   <section
                     className="home__section cursor-none"
                     ref={homeSection}
+                    id="homeSection1"
                   >
                     <div className="border__inner"></div>
                     <div className="home__section__content">
@@ -403,6 +441,68 @@ const Home = () => {
                         </div>
                       </div>
                     </div>
+                  </section>
+                  <section className="home__section" id="homeSection2">
+                      <div className="border__outer"></div>
+                      <div className="border__inner"></div>
+                      <div className="home__section__content">
+                        <div className="content__home">
+                            <div className="content__card__wrap">
+                                <ul className="content__card__list">
+                                  <li className="content__card">
+                                    <a href="/" className="content__card__inner">
+                                      <p className="text-sm">
+                                      BLOCKCHAIN CONSULTING AND ADVISORY 
+                                      <br />                                            
+                                      A GAME CHANGER
+                                      </p>
+                                      <div className="card__icon__wrap">
+                                        <div className="content__card__icon cursor-none">
+                                            <svg version="1.1" id="Modo_de_aislamiento" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 300 300" enable-background="new 0 0 300 300" xmlSpace="preserve">
+                                              <path fill="#191919" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" d="M42.3,142.1c0.1,1.1,0.3,2.2,0.5,3.3v0
+                                                c5.8,41.3,51,69,90.7,55.1h0c12.4-4.8,21.8,9.5,33.2,11.1c28.4,2.4,62.9-59.4,31.5-74.8c-2.8-1.6-6-3.5-8.8-5.1
+                                                c-3.9-2.5-7.5-5.7-8.6-10l0.1,0.4c-7.7-48.7-65.7-74.5-107.1-46.8l0.2-0.1c-19.6,12.4-32,34.8-32,58v0
+                                                C41.7,135.4,42.2,142.2,42.3,142.1L42.3,142.1z M135.9,199.6c-0.3,0.1-0.7,0.2-1,0.4C135.2,199.9,135.6,199.8,135.9,199.6
+                                                L135.9,199.6z M182.3,125.2c0,0-0.1-0.1-0.1-0.1C182.3,125.1,182.3,125.2,182.3,125.2z" strokeWidth={0.881057}></path>
+                                              <ellipse transform="matrix(0.5024 -0.8646 0.8646 0.5024 -60.6977 244.6887)" fill="#191919" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" cx="182.2" cy="175.1" rx="40.9" ry="23.7"></ellipse>
+                                              <path fill="#191919" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" d="M250.9,174.1l-43.9-25.5
+                                                c-0.3-0.2-0.6-0.3-0.9-0.5c-2.1-1-4.4-1.3-6.8-1.1c-8,0.8-14.8,6-20.1,11.7c-8.6,9.7-14.8,22.5-14.5,35.7c0.2,3.6,1,7.4,2.9,10.4
+                                                c1.1,1.7,2.5,3.1,4.3,4.2l43.9,25.5L250.9,174.1L250.9,174.1z" strokeWidth={0.881057}></path>
+                                              <path fill="#191919" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" d="M258,208l0.1-17.5l0,0c0.3-8.4-3.6-17.8-13.2-18
+                                                c-6.6-0.1-12.6,3.4-17.4,7.6c-10.9,9.6-19,24.8-18.8,39.5c0.1,1.4,0.2,2.8,0.4,4.1c1.4,8.2,7.4,13.8,15.9,12.3
+                                                c3-0.5,5.8-1.7,8.5-3.2c5.1-2.9,10.2-5.9,15.3-8.8L258,208L258,208z" strokeWidth={0.881057}></path>
+                                              <path fill="#191919" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" d="M215.2,161.9c12.3-6.9,22.6-3.5,26.2,7.2
+                                                c-1.4-0.8-6.4-3.9-7.9-4.4c-1.8-0.7-3.8-0.9-5.8-0.8c-21.1,1.9-42.6,39-31.6,57.8c1.1,1.7,2.5,3.1,4.3,4.2l6.4,3.7
+                                                c-11.7,2.7-20.1-5-19.9-19.8C187.1,192,199.8,170.6,215.2,161.9L215.2,161.9z" strokeWidth={0.881057}></path>
+                                              <path fill="#191919" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" d="M178.1,206.8c-0.3-7.2,1.5-14.4,4.2-21.1
+                                                c5.7-13.9,20.2-32.4,36.5-32.5c2,0,4.1,0.5,5.9,1.3c0.1,0,9.4,5.3,9.8,5.6c-5.6-3.2-12.5-1.9-17.9,0.9c-9.3,4.7-16.5,12.9-21.7,21.8
+                                                c-5,8.7-8.4,18.6-8.1,28.7c0.2,6.3,2.4,13.3,8.1,16.7c-2.1-1.3-9.8-5.3-11.4-7.1C179.8,217.6,178.3,212,178.1,206.8L178.1,206.8z" strokeWidth={0.881057}></path>
+                                              <ellipse transform="matrix(0.5024 -0.8646 0.8646 0.5024 -60.5547 321.1053)" fill="#191919" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round" cx="248.7" cy="213.2" rx="13.2" ry="7.6"></ellipse>
+                                            </svg>
+                                        </div>
+                                      </div>
+                                      <h3 className="content__card__title">BLOCKCHAIN CONSULTANCY</h3>
+                                      <div className="card__arrow__btn">
+                                        <div className="card__arrow__wrapper">
+                                          <svg class="sbc-svg-icon sbc-icon-arrow-right" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 34 12"  xmlSpace="preserve"
+                                            strokeWidth={0.8}
+                                            fill="#fff"
+                                            stroke="#ffffff"
+                                          >
+                                            <g transform="translate(31.941) rotate(90)">
+                                              <line class="sbc-svg-icon__path" x1="5.1" y1="4.6" x2="5.1" y2="30" fill="#ffffff"></line>
+                                              <path class="sbc-svg-icon__path" d="M1.1,4.9l4-6l4,6H1.1z" fill="#ffff"></path>
+                                            </g>
+                                          </svg>
+                                        </div>
+                                      </div>
+                                    </a>
+                                  </li>
+                                  
+                                </ul>
+                            </div>
+                        </div>
+                      </div>
                   </section>
                 </div>
               </div>
