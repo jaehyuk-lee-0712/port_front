@@ -2,28 +2,71 @@ import React, { useEffect, useRef } from "react";
 import { IoIosArrowRoundDown } from "react-icons/io";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "@studio-freight/lenis";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger); // GSAP에 ScrollTrigger 플러그인을 등록
 
 const Home = () => {
-  const contextDesc = useRef(null);
-  const moveBoxTop = useRef(null);
-  const moveBoxBottom = useRef(null);
+  const contextDesc = useRef(null); // contextDesc 요소에 대한 참조 생성
+  const moveBoxTop = useRef(null); // moveBoxTop 요소에 대한 참조 생성
+  const moveBoxBottom = useRef(null); // moveBoxBottom 요소에 대한 참조 생성
+  const moveBoxBottomWrap = useRef(null);
+  const homeSection = useRef(null);
 
-  const mainSectionBox = useRef(null);
   useEffect(() => {
+    // Lenis 초기화
+    const lenis = new Lenis({
+      duration: 1.5, // 스크롤 애니메이션 지속 시간
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // 부드러운 스크롤을 위한 이징 함수
+      smoothWheel: true,
+      smoothTouch: false,
+    });
+
+    // requestAnimationFrame을 사용하여 Lenis의 애니메이션 프레임을 갱신
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // ScrollTrigger에 Lenis를 프록시로 사용하여 스크롤 제어
+    ScrollTrigger.scrollerProxy(document.body, {
+      scrollTop(value) {
+        return arguments.length
+          ? lenis.scrollTo(value, { immediate: true })
+          : lenis.targetScroll;
+      },
+      getBoundingClientRect() {
+        return {
+          top: 0,
+          left: 0,
+          width: window.innerWidth,
+          height: window.innerHeight,
+        };
+      },
+    });
+
+    lenis.on("scroll", ScrollTrigger.update); // Lenis 스크롤 이벤트 발생 시 ScrollTrigger 업데이트
+
+    ScrollTrigger.defaults({
+      scroller: document.body, // ScrollTrigger의 기본 스크롤러를 body로 설정
+    });
+
+    // contextDesc 요소에 대한 애니메이션 타임라인 생성
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: contextDesc.current,
-        start: "top 10%",
-        end: "top 50%",
-        scrub: true,
+        start: "top 10%", // 스크롤이 화면 상단에서 10% 내려왔을 때 애니메이션 시작
+        end: "top 50%", // 스크롤이 화면 상단에서 50% 내려왔을 때 애니메이션 종료
+        scrub: true, // 스크롤과 애니메이션의 싱크를 맞춤
         // markers: true,
         onUpdate: (self) => {
+          // ScrollTrigger 업데이트 시 호출되는 함수
           if (self.progress > 0.5) {
-            gsap.to(contextDesc.current, { opacity: 0 });
+            gsap.to(contextDesc.current, { opacity: 0 }); // 스크롤 진행률이 50%를 넘으면 투명도 0으로 설정
           } else {
-            gsap.to(contextDesc.current, { opacity: 1 });
+            gsap.to(contextDesc.current, { opacity: 1 }); // 스크롤 진행률이 50% 미만이면 투명도 1로 설정
           }
         },
       },
@@ -40,53 +83,138 @@ const Home = () => {
       }
     );
 
-    gsap.fromTo(
-      moveBoxTop.current,
-      { x: "-1000%" },
-      {
-        x: "0%",
-        ease: "power1.inOut",
-        // stagger: 0.1,
-        scrollTrigger: {
-          trigger: moveBoxTop.current,
-          duration: 5,
-          start: "top center",
-          end: "bottom+=2000px",
-          scrub: true,
-          // markers: true,
-          snap: {
-            snapTo: 0.5, // 화면의 중간에서 스냅
-            duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
-            delay: 0.1, // 스냅 전 지연 시간
-            ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
-          },
-        },
-      }
-    );
+    // // // moveBoxTop 요소에 대한 애니메이션 설정
+    // gsap.fromTo(
+    //   moveBoxTop.current,
+    //   { x: "-1000%" },
+    //   {
+    //     ease: "sine.inOut",
+    //     scrollTrigger: {
+    //       trigger: moveBoxTop.current,
+    //       start: "top center", // 요소가 화면 중앙에 도달할 때 애니메이션 시작
+    //       end: "bottom+=2000px", // 스크롤이 요소의 끝 부분에 2000px를 더할 때 애니메이션 종료
+    //       scrub: true,
+    //       // markers: true,
+    //       onUpdate: (self) => {
+    //         // 스크롤 진행 상황에 따라 x 위치 업데이트
+    //         const newX = -1000 + 1000 * self.progress;
+    //         console.log(self.progress);
+    //         gsap.to(moveBoxTop.current, {
+    //           x: newX + "px",
+    //           duration: 1.7,
+    //           overwrite: "auto",
+    //         });
+    //       },
+    //     },
+    //   }
+    // );
 
-    gsap.fromTo(
-      moveBoxBottom.current,
-      { x: "1000%" },
-      {
-        x: "0%",
-        // stagger: 0.1,
-        ease: "power1.inOut",
-        scrollTrigger: {
-          trigger: moveBoxBottom.current,
-          duration: 5,
-          start: "top center",
-          end: "bottom+=1706px",
-          scrub: true,
-          // markers: true,
-          snap: {
-            snapTo: 0.5, // 화면의 중간에서 스냅
-            duration: { min: 0.2, max: 0.5 }, // 스냅 애니메이션 지속 시간
-            delay: 0.1, // 스냅 전 지연 시간
-            ease: "power1.inOut", // 스냅 애니메이션의 이징 함수
-          },
+    // // moveBoxBottom 요소에 대한 애니메이션 설정
+    // gsap.fromTo(
+    //   moveBoxBottom.current,
+    //   { x: "2000px" },
+    //   {
+    //     scrollTrigger: {
+    //       trigger: moveBoxBottom.current,
+    //       // duration: 5,
+    //       start: "top center", // 요소가 화면 중앙에 도달할 때 애니메이션 시작
+    //       end: "bottom+=2000px",
+    //       scrub: true,
+    //       // markers: true,
+    //       onUpdate: (self) => {
+    //         const newX = 1000 - 1000 * self.progress;
+    //         gsap.to(moveBoxBottom.current, {
+    //           x: newX + "px",
+    //           duration: 1.7,
+    //           overwrite: "auto",
+    //         });
+    //       },
+    //     },
+    //   }
+    // );
+
+    // gsap.timeline을 사용하여 애니메이션 설정
+    const tl2 = gsap.timeline({
+      scrollTrigger: {
+        trigger: moveBoxTop.current,
+        start: "top center", // 요소가 화면 중앙에 도달할 때 애니메이션 시작
+        end: "bottom+=2000px", // 스크롤이 요소의 끝 부분에 2000px를 더할 때 애니메이션 종료
+        scrub: true,
+        // markers: true,
+        onUpdate: (self) => {
+          // 스크롤 진행 상황에 따라 x 위치 업데이트
+          const progress = self.progress;
+          const newXTop = -1000 + 1000 * progress;
+          const newXBottom = 1000 - 1000 * progress;
+
+          tl.clear(); // 이전 타임라인 애니메이션을 지우기
+          tl.to(
+            moveBoxTop.current,
+            {
+              x: newXTop + "px",
+              duration: 0.1, // 더 짧은 duration을 사용하여 매끄러운 업데이트
+              ease: "none",
+              overwrite: "auto",
+            },
+            0
+          ); // 동시에 실행되도록 시작 시간 설정
+          tl.to(
+            moveBoxBottom.current,
+            {
+              x: newXBottom + "px",
+              duration: 0.1, // 더 짧은 duration을 사용하여 매끄러운 업데이트
+              ease: "none",
+              overwrite: "auto",
+            },
+            0
+          ); // 동시에 실행되도록 시작 시간 설정
         },
-      }
-    );
+      },
+    });
+
+    // 타임라인에 애니메이션 추가
+    tl2
+      .fromTo(
+        moveBoxTop.current,
+        { x: "-1000%" },
+        { x: "0%", duration: 1.7, ease: "sine.inOut" },
+        0 // 동시에 시작
+      )
+      .fromTo(
+        moveBoxBottom.current,
+        { x: "2000px" },
+        { x: "0px", duration: 1.7, ease: "sine.inOut" },
+        0 // 동시에 시작
+      );
+
+    gsap.to(homeSection.current, {
+      scrollTrigger: {
+        trigger: homeSection.current,
+        start: "top+=5000px", // 스크롤 트리거 시작 위치
+        end: "bottom+=6000px", // 스크롤 트리거 종료 위치
+        scrub: true, // 스크롤과 애니메이션 동기화
+        markers: true, // 디버깅용 마커 표시
+        onUpdate: (self) => {
+          // 스크롤 진행 상황에 따라 scale 값을 업데이트
+          const newScale = 1 - 0.3 * self.progress;
+          gsap.to(homeSection.current, {
+            scale: newScale,
+            duration: 2, // 짧은 duration을 사용하여 매끄러운 업데이트
+            overwrite: "auto", // 이전 애니메이션을 덮어쓰기
+          });
+          const newMarginTop = 31.5 * (1 - self.progress);
+          gsap.to(moveBoxBottomWrap.current, {
+            marginTop: newMarginTop + "px",
+            duration: 0.2,
+          });
+        },
+      },
+    });
+
+    // 컴포넌트 언마운트 시 Lenis 인스턴스 파괴
+    return () => {
+      // lenis.destroy();
+    };
   }, []);
 
   return (
@@ -130,7 +258,7 @@ const Home = () => {
                   </div>
                   <section
                     className="home__section cursor-none"
-                    ref={mainSectionBox}
+                    ref={homeSection}
                   >
                     <div className="border__inner"></div>
                     <div className="home__section__content">
@@ -138,7 +266,7 @@ const Home = () => {
                         <div className="content__logo">
                           <div className="logo__wrap">
                             <svg
-                              class="sbc-logo-svg"
+                              className="sbc-logo-svg"
                               xmlns="http://www.w3.org/2000/svg"
                               width="100%"
                               height="100%"
@@ -247,7 +375,10 @@ const Home = () => {
                               </div>
                               <span className="move__box__door"></span>
                             </div>
-                            <div className="move__box__bottom">
+                            <div
+                              className="move__box__bottom"
+                              ref={moveBoxBottomWrap}
+                            >
                               <div className="move__box__line">
                                 <span ref={moveBoxBottom} id="moveBoxBottom">
                                   Blockcha1n solutions
